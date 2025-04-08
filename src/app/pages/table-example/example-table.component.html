@@ -1,0 +1,11 @@
+<prime-datatable
+  *ngIf="_defaultService"
+  [_defaultService]="_defaultService"
+  [columnDefs]="columnDefs"
+  [tableTitle]="'Users'"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 50, 100]"
+  [hasCreate]="false"
+  [hasRefreshBtn]="true"
+  [hasRowIndex]="true"
+></prime-datatable>
