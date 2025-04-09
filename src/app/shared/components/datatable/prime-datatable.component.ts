@@ -23,8 +23,8 @@ export class PrimeDatatableComponent implements OnInit, OnChanges {
   @Input() _defaultService!: DefaultService;
   @Input() tableTitle?: string;
   @Input() columnDefs: any[] = [];
-  @Input() rows: number = 10;
-  @Input() rowsPerPageOptions: number[] = [10, 20, 50];
+  @Input() rows: number = 15;
+  @Input() rowsPerPageOptions: number[] = [15, 30, 50];
   @Input() hasCreate: boolean = false;
   @Input() hasRefreshBtn: boolean = false;
   @Input() hasClearFilterBtn: boolean = false;

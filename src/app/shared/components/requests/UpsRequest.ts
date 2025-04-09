@@ -152,7 +152,7 @@ export class UpsTableRequest extends UpsRequest {
     }
   
     const currentParams = this.getParams();
-    const sortKeys = ['order_column', 'order_type']; 
+    const sortKeys = ['page', 'per_page', 'order_column', 'order_type']; 
   
     for (const key in currentParams) {
       if (!(key in cleanedFilters) && !sortKeys.includes(key)) {
