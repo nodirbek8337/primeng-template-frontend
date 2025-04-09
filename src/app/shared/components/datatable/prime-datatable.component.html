@@ -32,14 +32,14 @@
             dataKey="id"
         >
             <ng-template pTemplate="header" let-columns>
-                <tr>
-                    <th *ngFor="let col of columns" [pSortableColumn]="col.sortable !== false ? col.field : null">
+                <tr class="sort-headers">
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.sortable !== false ? col.field : null" class="sort-header">
                         {{ col.header }}
                         <p-sortIcon *ngIf="col.sortable !== false" [field]="col.field"></p-sortIcon>
                     </th>
                 </tr>
-                <tr>
-                    <th *ngFor="let col of columns">
+                <tr class="filter-headers">
+                    <th *ngFor="let col of columns" class="filter-header">
                         <input 
                             *ngIf="col.searchable !== false" 
                             pInputText 
@@ -54,7 +54,7 @@
             </ng-template>
 
             <ng-template pTemplate="body" let-rowData let-columns="columns">
-                <tr>
+                <tr class="body-contents">
                     <td *ngFor="let col of columns">
                         {{ rowData[col.field] }}
                     </td>
