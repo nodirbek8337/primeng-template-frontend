@@ -2,7 +2,9 @@ import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChange
 import { TableModule, TableLazyLoadEvent } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { DefaultService } from '../../services/default.service';
+import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'prime-datatable',
@@ -12,7 +14,9 @@ import { InputTextModule } from 'primeng/inputtext';
   imports: [
     CommonModule,
     TableModule,
-    InputTextModule
+    FormsModule,
+    InputTextModule,
+    ButtonModule
   ]
 })
 export class PrimeDatatableComponent implements OnInit, OnChanges {
@@ -23,6 +27,7 @@ export class PrimeDatatableComponent implements OnInit, OnChanges {
   @Input() rowsPerPageOptions: number[] = [10, 20, 50];
   @Input() hasCreate: boolean = false;
   @Input() hasRefreshBtn: boolean = false;
+  @Input() hasClearFilterBtn: boolean = false;
   @Input() hasRowIndex: boolean = false;
 
   @Output() onAdd = new EventEmitter<void>();
@@ -35,6 +40,7 @@ export class PrimeDatatableComponent implements OnInit, OnChanges {
   columnFilters: { [key: string]: any } = {};
   private dataLoadedOnce = false;
   private currentPageStartIndex = 0;
+  private filterTimeout: any;
 
   constructor() {}
 
@@ -58,18 +64,35 @@ export class PrimeDatatableComponent implements OnInit, OnChanges {
   }
 
   onColumnFilter(value: string, field: string) {
-    this.columnFilters[field] = value;
-    this.applyFilters();
+    if (!(value && value.trim() !== '')) {
+      delete this.columnFilters[field];
+    }
+  
+    if (this.filterTimeout) {
+      clearTimeout(this.filterTimeout);
+    }
+  
+    this.filterTimeout = setTimeout(() => {
+      this.applyFilters();
+    }, 1000);
   }
 
   applyFilters() {
     const formattedFilters: any = {};
+  
     for (const key in this.columnFilters) {
-      if (this.columnFilters[key]) {
-        formattedFilters[key] = { value: this.columnFilters[key], matchMode: 'contains' };
+      const value = this.columnFilters[key];
+  
+      if (value && value.trim() !== '') {
+        formattedFilters[key] = { value, matchMode: 'contains' };
       }
     }
+  
     this.reload(formattedFilters);
+  }
+
+  isFilterEmpty(): boolean {
+    return Object.keys(this.columnFilters).length === 0;
   }
 
   loadData(event: TableLazyLoadEvent) {
@@ -96,13 +119,22 @@ export class PrimeDatatableComponent implements OnInit, OnChanges {
 
     this.loading = true;
 
-    this._defaultService.reloadTable().subscribe((res) => {
-      this.value = res.data?.map((item: any, index: number) => ({
-        rowIndex: this.currentPageStartIndex + index + 1,
-        ...item
-      })) ?? [];
-      this.totalRecords = res.pagination?.total ?? res.total ?? res.data?.total ?? 0;
-      this.loading = false;
+    this._defaultService.reloadTable().subscribe({
+      next: (res) => {
+        this.value = res.data?.map((item: any, index: number) => ({
+          rowIndex: this.currentPageStartIndex + index + 1,
+          ...item
+        })) ?? [];
+    
+        this.totalRecords = res.pagination?.total ?? res.total ?? res.data?.total ?? 0;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('API error:', err); 
+        this.value = [];
+        this.totalRecords = 0;
+        this.loading = false; 
+      }
     });
   }
 
@@ -126,6 +158,11 @@ export class PrimeDatatableComponent implements OnInit, OnChanges {
       filters
     };
     this.loadData(reloadEvent);
+  }
+
+  clearAllFilters() {
+    this.columnFilters = {};
+    this.applyFilters();
   }
 
   private addRowIndexColumn() {

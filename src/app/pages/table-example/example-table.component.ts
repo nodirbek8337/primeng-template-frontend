@@ -18,10 +18,6 @@ export class ExampleTableComponent {
         { field: 'role', header: 'Role' },
         { field: 'email', header: 'Email' },
         { field: 'phone', header: 'Phone' },
-        { field: 'gender', header: 'Gender' },
-        { field: 'nationality', header: 'Nationality' },
-        { field: 'address', header: 'Address' },
-        { field: 'birth_date', header: 'Birth Date' },
         { field: 'created_at', header: 'Created At' },
         { field: 'updated_at', header: 'Updated At' },
     ];

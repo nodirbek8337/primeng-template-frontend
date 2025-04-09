@@ -98,7 +98,6 @@ export class UpsRequest {
     this.options.body = {};
   }
 
-  /** PrimeNG uchun sort */
   setSortParamsPrimeNg(sortData: { field: string; order: number }) {
     if (sortData?.field && sortData?.order !== undefined) {
       this.putParam('order_column', sortData.field);
@@ -127,7 +126,6 @@ export class UpsTableRequest extends UpsRequest {
     super(url, 'get', new UpsRequestOptions({...params}));
   }
 
-  /** PrimeNG uchun sahifalash */
   setPageParamsPrimeNg(first: number, rows: number) {
     const page = Math.floor(first / rows) + 1;
     this.setPageParams(page, rows);
@@ -138,14 +136,38 @@ export class UpsTableRequest extends UpsRequest {
     this.putParam('per_page', size);
   }
 
-  setFilterParams(filter: object) {
+  setFilterParams(filters: any) {
+    const cleanedFilters: any = {};
+  
+    for (const key in filters) {
+      const filterValue = filters[key];
+  
+      if (filterValue && typeof filterValue === 'object' && 'value' in filterValue) {
+        if (filterValue.value !== null && filterValue.value !== '') {
+          cleanedFilters[key] = filterValue.value;
+        }
+      } else if (filterValue !== null && filterValue !== '') {
+        cleanedFilters[key] = filterValue;
+      }
+    }
+  
+    const currentParams = this.getParams();
+    const sortKeys = ['order_column', 'order_type']; 
+  
+    for (const key in currentParams) {
+      if (!(key in cleanedFilters) && !sortKeys.includes(key)) {
+        delete currentParams[key];
+      }
+    }
+  
     const params = {
-      ...this.getParams(),
-      ...filter,
+      ...currentParams,
+      ...cleanedFilters,
     };
+  
     this.updateParams(params);
   }
-
+  
   removeDefaultQueries(queries: any) {
     if (queries.size === UpsTableRequest.DEFAULT_SIZE) {
       delete queries.size;
