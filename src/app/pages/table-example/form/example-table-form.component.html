@@ -1,0 +1,46 @@
+<form [formGroup]="form" (ngSubmit)="submitForm()" class="p-fluid">
+    <div class="field">
+        <label for="name">Name</label>
+        <input id="name" pInputText formControlName="name" />
+    </div>
+
+    <div class="field">
+        <label for="role">Role</label>
+        <input id="role" pInputText formControlName="role" />
+    </div>
+
+    <div class="field">
+        <label for="email">Email</label>
+        <input id="email" pInputText formControlName="email" />
+    </div>
+
+    <div class="field">
+        <label for="phone">Phone</label>
+        <input id="phone" pInputText formControlName="phone" />
+    </div>
+
+    <div class="field">
+        <label for="gender">Gender</label>
+        <input id="gender" pInputText formControlName="gender" />
+    </div>
+
+    <div class="field">
+        <label for="nationality">Nationality</label>
+        <input id="nationality" pInputText formControlName="nationality" />
+    </div>
+
+    <div class="field">
+        <label for="address">Address</label>
+        <input id="address" pInputText formControlName="address" />
+    </div>
+
+    <div class="field">
+        <label for="birth_date">Birthay</label>
+        <input id="birth_date" pInputText formControlName="birth_date" />
+    </div>
+
+    <div class="flex justify-end gap-2 mt-4">
+        <button pButton type="button" label="Cancel" (click)="closeModal()" class="p-button-text p-button-danger"></button>
+        <button pButton type="submit" label="Save" [disabled]="form.invalid" class="p-button-text p-button-success"></button>
+    </div>
+</form>

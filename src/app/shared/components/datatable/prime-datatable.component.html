@@ -38,6 +38,9 @@
                         {{ col.header }}
                         <p-sortIcon *ngIf="col.sortable !== false" [field]="col.field"></p-sortIcon>
                     </th>
+                    <th *ngIf="hasAction" class="sort-header">
+                        Harakat
+                    </th>
                 </tr>
                 <tr class="filter-headers">
                     <th *ngFor="let col of columns" class="filter-header">
@@ -51,6 +54,8 @@
                             (ngModelChange)="onColumnFilter($event, col.field)"
                         />
                     </th>
+                    <th *ngIf="hasAction" class="filter-header">
+                    </th>
                 </tr>
             </ng-template>
 
@@ -59,8 +64,37 @@
                     <td *ngFor="let col of columns">
                         {{ rowData[col.field] }}
                     </td>
+                    <td *ngIf="hasAction">
+                        <button 
+                          pButton 
+                          icon="pi pi-pencil" 
+                          class="p-button-sm p-button-text p-button-info me-2" 
+                          (click)="triggerEdit(rowData)">
+                        </button>
+                        <button 
+                          pButton 
+                          icon="pi pi-trash" 
+                          class="p-button-sm p-button-text p-button-danger" 
+                          (click)="triggerDelete(rowData)">
+                        </button>
+                      </td>
                 </tr>
             </ng-template>
         </p-table>
     </div>
 </div>
+
+<p-dialog 
+  [(visible)]="showEditDialog"
+  [modal]="true"
+  [style]="{ width: '600px' }"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  header="{{ editMode ? 'Edit' : 'Create' }}"
+>
+  <ng-template #formContainer></ng-template>
+</p-dialog>
+
+<p-confirmDialog></p-confirmDialog>
+

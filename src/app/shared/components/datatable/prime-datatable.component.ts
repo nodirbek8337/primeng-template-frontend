@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ViewChild, ViewContainerRef, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChanges, Type, ComponentRef, inject } from '@angular/core';
 import { TableModule, TableLazyLoadEvent } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { DefaultService } from '../../services/default.service';
 import { FormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 
@@ -14,23 +17,30 @@ import { ButtonModule } from 'primeng/button';
   imports: [
     CommonModule,
     TableModule,
+    DialogModule,
+    ConfirmDialogModule,
     FormsModule,
     InputTextModule,
     ButtonModule
-  ]
+  ],
+  providers: [ConfirmationService],
 })
 export class PrimeDatatableComponent implements OnInit, OnChanges {
   @Input() _defaultService!: DefaultService;
+  @ViewChild('formContainer', { read: ViewContainerRef }) formContainer!: ViewContainerRef;
+  formRef: ComponentRef<any> | null = null;
+
+  @Input() formComponent!: Type<any>;
   @Input() tableTitle?: string;
   @Input() columnDefs: any[] = [];
   @Input() rows: number = 15;
   @Input() rowsPerPageOptions: number[] = [15, 30, 50];
   @Input() hasCreate: boolean = false;
+  @Input() hasAction: boolean = false;
   @Input() hasRefreshBtn: boolean = false;
   @Input() hasClearFilterBtn: boolean = false;
   @Input() hasRowIndex: boolean = false;
 
-  @Output() onAdd = new EventEmitter<void>();
   @Output() onRefresh = new EventEmitter<void>();
   @Output() onRowClick = new EventEmitter<any>();
 
@@ -38,20 +48,51 @@ export class PrimeDatatableComponent implements OnInit, OnChanges {
   totalRecords: number = 0;
   loading: boolean = false;
   columnFilters: { [key: string]: any } = {};
+
+  editMode = false;
+  editData: any = {};
+  showEditDialog = false;
+
   private dataLoadedOnce = false;
   private currentPageStartIndex = 0;
   private filterTimeout: any;
 
+  confirmationService = inject(ConfirmationService);
+
   constructor() {}
 
   ngOnInit(): void {
-    if (this.hasRowIndex) {
-      this.addRowIndexColumn();
-    }
+    if (this.hasRowIndex) this.addRowIndexColumn();
+  
+    this._defaultService.reloadDataTable.subscribe(() => this.reload());
   }
 
   triggerAdd() {
-    this.onAdd.emit();
+    this.editData = {};
+    this.editMode = false;
+    this.showEditDialog = true;
+    setTimeout(() => this.loadFormComponent(), 0);
+  }
+
+  triggerEdit(row: any) {
+    this.editData = row;
+    this.editMode = true;
+    this.showEditDialog = true;
+    setTimeout(() => this.loadFormComponent(row._id), 0);
+  }
+  
+  triggerDelete(row: any) {
+    this.confirmationService.confirm({
+      message: `Are you sure you want to delete this item?`,
+      header: 'Confirm Delete',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this._defaultService.delete(row._id).subscribe({
+          next: () => this.reload(),
+          error: (err) => console.error('Delete error:', err)
+        });
+      }
+    });
   }
 
   triggerRefresh() {
@@ -173,5 +214,32 @@ export class PrimeDatatableComponent implements OnInit, OnChanges {
       searchable: false,
       style: { width: '60px', textAlign: 'center' }
     });
+  }
+
+  loadFormComponent(_id: any = null) {
+    if (!this.formComponent || !this.formContainer) return;
+  
+    this.formContainer.clear();
+    this.formRef = this.formContainer.createComponent(this.formComponent);
+    this.formRef.instance.model = { ...this.editData };
+  
+    this.formRef.instance.onClose = () => {
+      this.showEditDialog = false;
+    };
+  
+    this.formRef.instance.onSubmitted = (formData: any) => {
+      const save$ = this.editMode && _id
+        ? this._defaultService.update(formData, _id)
+        : this._defaultService.insert(formData);
+  
+      save$.subscribe({
+        next: () => {
+          this.showEditDialog = false;
+        },
+        error: () => {
+          this.showEditDialog = false;
+        }
+      });
+    };
   }
 }

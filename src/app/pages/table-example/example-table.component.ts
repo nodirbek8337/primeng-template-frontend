@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { PrimeDatatableComponent } from '../../shared/components/datatable/prime-datatable.component';
 import { ExampleTableService } from './example-table.service';
 import { NgIf } from '@angular/common';
+import { ExampleTableFormComponent } from './form/example-table-form.component';
 
 @Component({
     selector: 'app-examplet-table',
@@ -12,6 +13,8 @@ import { NgIf } from '@angular/common';
 })
 export class ExampleTableComponent {
     _defaultService = inject(ExampleTableService);
+
+    FormComponent = ExampleTableFormComponent;
 
     columnDefs = [
         { field: 'name', header: 'Name' },
