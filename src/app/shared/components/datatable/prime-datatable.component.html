@@ -29,6 +29,7 @@
             [lazy]="true"
             (onLazyLoad)="loadData($event)"
             (onRowClick)="handleRowClick($event)"
+            class="datatable-content"
             dataKey="id"
         >
             <ng-template pTemplate="header" let-columns>

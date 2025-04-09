@@ -15,40 +15,57 @@
 }
 
 /* Light Mode */
+::ng-deep .datatable-content .p-datatable {
+  border: 1px solid #e5e7eb;
+  border-radius: var(--content-border-radius);
+}
+
 .sort-headers .sort-header,
 .filter-headers .filter-header {
-  background-color: #f0f0f5;
-  color: #333;
+    background-color: #f0f0f5;
+    color: #333;
+    border: none;
+}
+
+.sort-headers .sort-header,
+.filter-headers .filter-header {
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .sort-headers .sort-header:first-child {
-  border-top-left-radius: var(--content-border-radius);
+    border-top-left-radius: var(--content-border-radius);
 }
 
 .sort-headers .sort-header:last-child {
-  border-top-right-radius: var(--content-border-radius);
+    border-top-right-radius: var(--content-border-radius);
 }
 
 .body-contents:nth-child(even) {
-  background-color: #f9f9fc;
+    background-color: #f9f9fc;
 }
 
 .body-contents:hover {
-  background-color: #e0e7ff;
-  cursor: pointer;
+    background-color: #e0e7ff;
+    cursor: pointer;
 }
 
 /* Dark Mode */
-html.app-dark thead .sort-header {
-  background-color: #1f2937 !important;
-  color: #f9fafb !important;
+::ng-deep html.app-dark .datatable-content .p-datatable {
+  border-color: #52525b !important;
 }
 
-html.app-dark .body-contents:nth-child(even) {
-  background-color: #374151 !important;
+::ng-deep html.app-dark .sort-headers .sort-header, 
+::ng-deep html.app-dark .filter-headers .filter-header {
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
+    border-color: #52525b !important;
 }
 
-html.app-dark .body-contents:hover {
-  background-color: #4b5563 !important;
-  cursor: pointer;
+::ng-deep html.app-dark .body-contents:nth-child(even) {
+    background-color: #374151 !important;
+}
+
+::ng-deep html.app-dark .body-contents:hover {
+    background-color: #4b5563 !important;
+    cursor: pointer;
 }
