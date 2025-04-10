@@ -1,34 +1,51 @@
 import { Component, inject } from '@angular/core';
 import { PrimeDatatableComponent } from '../../shared/components/datatable/prime-datatable.component';
 import { ExampleTableService } from './example-table.service';
-import { formatDate, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ExampleTableFormComponent } from './form/example-table-form.component';
 import { ICustomAction } from '../../shared/interfaces/custom-action.interface';
 import { CustomDateRendererComponent } from '../../shared/components/badge/custom-date-renderer.component';
+import { DateFormatPipe } from '../../shared/pipes/date-format.pipe';
+import { PhoneNumberPipe } from '../../shared/pipes/phone-number.pipe';
 
 @Component({
     selector: 'app-examplet-table',
     standalone: true,
     imports: [PrimeDatatableComponent, NgIf],
     templateUrl: './example-table.component.html',
-    styleUrls: ['./example-table.component.scss']
+    styleUrls: ['./example-table.component.scss'],
+    providers: [DateFormatPipe, PhoneNumberPipe],
 })
 export class ExampleTableComponent {
     _defaultService = inject(ExampleTableService);
+    private _dateFormat = inject(DateFormatPipe);
+    private _phoneNumberFormat = inject(PhoneNumberPipe);
 
     FormComponent = ExampleTableFormComponent;
 
     columnDefs = [
         { field: 'name', header: 'Name' },
-        { field: 'role', header: 'Role' },
-        { field: 'email', header: 'Email' },
-        { field: 'phone', header: 'Phone' },
         { 
-            field: 'created_at', 
+            field: 'phone', 
+            header: 'Phone',
+            cellRendererFn: (row: any, field: string) => {
+                const formatted = this._phoneNumberFormat.transform(row[field]);
+                return `<span>${formatted}</span>`;
+            }
+         },
+        {
+            field: 'created_at',
             header: 'Created At',
             cellRendererComponent: CustomDateRendererComponent
         },
-        { field: 'updated_at', header: 'Updated At' }
+        {
+            field: 'updated_at',
+            header: 'Updated At',
+            cellRendererFn: (row: any, field: string) => {
+                const formatted = this._dateFormat.transform(row[field]);
+                return `<span>${formatted}</span>`;
+            }
+        }
     ];
 
     customRowActions: ICustomAction[] = [

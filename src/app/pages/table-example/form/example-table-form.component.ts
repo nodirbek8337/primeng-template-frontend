@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ExampleTableFormComponent {
   @Input() model: any = {};
+  @Input() loading: boolean = false;
   onClose!: () => void;
   onSubmitted!: (success: boolean) => void;
 
@@ -24,6 +25,7 @@ export class ExampleTableFormComponent {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       gender: ['', Validators.required],
+      status: ['', Validators.required],
       nationality: ['', Validators.required],
       address: ['', Validators.required],
       birth_date: ['', Validators.required],

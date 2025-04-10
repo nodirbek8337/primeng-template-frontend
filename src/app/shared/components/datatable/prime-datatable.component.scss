@@ -25,6 +25,7 @@
     background-color: #f0f0f5;
     color: #333;
     border: none;
+    text-align: center;
 }
 
 .sort-headers .sort-header,
@@ -47,6 +48,11 @@
 .body-contents:hover {
     background-color: #e0e7ff;
     cursor: pointer;
+}
+
+.body-content,
+.center-content {
+    text-align: center;
 }
 
 /* Dark Mode */

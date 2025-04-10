@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,10 +6,11 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <span style="background-color: aquamarine; padding: 0.5rem">
-      {{ rowData?.[field] | date: 'dd MMM yyyy, HH:mm' }}
+    <span>
+    {{ rowData?.[field] | date: 'dd MMM yyyy, HH:mm' }}
     </span>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomDateRendererComponent {
   @Input() rowData!: any;

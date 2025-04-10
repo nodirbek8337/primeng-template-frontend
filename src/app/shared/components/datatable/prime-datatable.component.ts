@@ -52,6 +52,8 @@ export class PrimeDatatableComponent extends TableFeatureBaseComponent {
 
     @Input() customActions: ICustomAction[] = [];
 
+    isSubmitting = false;
+
     constructor() {
         super();
     }
@@ -104,15 +106,27 @@ export class PrimeDatatableComponent extends TableFeatureBaseComponent {
             this.showEditDialog = false;
         };
 
+        this.formRef.instance.loading = false;
+
         this.formRef.instance.onSubmitted = (formData: any) => {
-            const save$ = this.editMode && _id ? this._defaultService.update(formData, _id) : this._defaultService.insert(formData);
+            if (this.isSubmitting) return;
+            this.isSubmitting = true;
+            this.formRef!.instance.loading = true;
+
+            const save$ = this.editMode && _id 
+                ? this._defaultService.update(formData, _id) 
+                : this._defaultService.insert(formData);
 
             save$.subscribe({
                 next: () => {
+                    this.isSubmitting = false;
                     this.showEditDialog = false;
+                    this.formRef!.instance.loading = false;
                     this.reload();
                 },
                 error: () => {
+                    this.isSubmitting = false;
+                    this.formRef!.instance.loading = false;
                     this.showEditDialog = false;
                 }
             });

@@ -24,6 +24,11 @@
         <input id="gender" pInputText formControlName="gender" />
     </div>
 
+    <div class="status">
+        <label for="status">Status</label>
+        <input id="status" pInputText formControlName="status" />
+    </div>
+
     <div class="field">
         <label for="nationality">Nationality</label>
         <input id="nationality" pInputText formControlName="nationality" />
@@ -41,6 +46,6 @@
 
     <div class="flex justify-end gap-2 mt-4">
         <button pButton type="button" label="Cancel" (click)="closeModal()" class="p-button-text p-button-danger"></button>
-        <button pButton type="submit" label="Save" [disabled]="form.invalid" class="p-button-text p-button-success"></button>
+        <button pButton type="submit" label="Save" [loading]="loading" [disabled]="loading || form.invalid" class="p-button-text p-button-success"></button>
     </div>
 </form>

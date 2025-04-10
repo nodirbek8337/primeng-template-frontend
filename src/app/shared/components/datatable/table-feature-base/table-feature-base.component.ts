@@ -1,9 +1,9 @@
-import { Directive, SimpleChanges, Input, OnChanges } from '@angular/core';
+import { Directive, SimpleChanges, Input, OnChanges, OnInit } from '@angular/core';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { DefaultService } from '../../../services/default.service';
 
 @Directive()
-export abstract class TableFeatureBaseComponent implements OnChanges {
+export abstract class TableFeatureBaseComponent implements OnInit {
     @Input() rows: number = 15;
     @Input() hasRowIndex: boolean = false;
 
@@ -22,18 +22,10 @@ export abstract class TableFeatureBaseComponent implements OnChanges {
     abstract _defaultService: DefaultService;
     abstract columnDefs: any[];
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['_defaultService']?.currentValue && !this.dataLoadedOnce) {
-            const waitForRequest = setInterval(() => {
-                const request = this._defaultService?.tableRequest;
-                if (request) {
-                    clearInterval(waitForRequest);
-                    this.dataLoadedOnce = true;
-                    this.reload();
-
-                    if (this.hasRowIndex) this.addRowIndexColumn();
-                }
-            }, 50);
+    ngOnInit(): void {
+        if (!this.dataLoadedOnce && this._defaultService?.tableRequest) {
+            this.dataLoadedOnce = true;
+            if (this.hasRowIndex) this.addRowIndexColumn();
         }
     }
 

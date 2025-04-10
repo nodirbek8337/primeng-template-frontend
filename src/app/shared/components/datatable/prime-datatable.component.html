@@ -66,17 +66,18 @@
 
             <ng-template pTemplate="body" let-rowData let-columns="columns">
                 <tr class="body-contents">
-                    <td *ngFor="let col of columns">
+                    <td *ngFor="let col of columns" class="body-content">
                         <datatable-column-renderer 
                             [field]="col.field" 
                             [row]="rowData"
-                            [cellRendererComponent]="col.cellRendererComponent">
+                            [cellRendererComponent]="col.cellRendererComponent"
+                            [cellRendererFn]="col.cellRendererFn">
                         </datatable-column-renderer>
                     </td>
-                    <td *ngIf="customActions?.length">
+                    <td *ngIf="customActions?.length" class="center-content">
                         <datatable-actions [row]="rowData" [actions]="customActions"></datatable-actions>
                     </td>                      
-                    <td *ngIf="hasAction">
+                    <td *ngIf="hasAction" class="center-content">
                         <button 
                           pButton 
                           icon="pi pi-pencil" 
