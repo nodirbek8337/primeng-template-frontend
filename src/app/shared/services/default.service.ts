@@ -22,15 +22,12 @@ export abstract class DefaultService {
     formType: FormType = FormType.JSON;
 
     protected constructor() {
-        setTimeout(
-            () =>
-                (this.tableRequest = new UpsTableRequest(this.getTableUrl(), {
-                    order_column: 'created_at',
-                    order_type: 'desc'
-                }))
-        );
+        this.tableRequest = new UpsTableRequest(this.getTableUrl(), {
+          order_column: 'created_at',
+          order_type: 'desc'
+        });
     }
-
+      
     getAll(params: any = {}): Observable<any> {
         return this._http.get(this.getTableUrl(), { params });
     }

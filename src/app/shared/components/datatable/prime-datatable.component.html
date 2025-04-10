@@ -38,6 +38,9 @@
                         {{ col.header }}
                         <p-sortIcon *ngIf="col.sortable !== false" [field]="col.field"></p-sortIcon>
                     </th>
+                    <th *ngIf="customActions?.length" class="sort-header">
+                        Harakat+
+                    </th>
                     <th *ngIf="hasAction" class="sort-header">
                         Harakat
                     </th>
@@ -56,14 +59,23 @@
                     </th>
                     <th *ngIf="hasAction" class="filter-header">
                     </th>
+                    <th *ngIf="hasAction" class="filter-header">
+                    </th>
                 </tr>
             </ng-template>
 
             <ng-template pTemplate="body" let-rowData let-columns="columns">
                 <tr class="body-contents">
                     <td *ngFor="let col of columns">
-                        {{ rowData[col.field] }}
+                        <datatable-column-renderer 
+                            [field]="col.field" 
+                            [row]="rowData"
+                            [cellRendererComponent]="col.cellRendererComponent">
+                        </datatable-column-renderer>
                     </td>
+                    <td *ngIf="customActions?.length">
+                        <datatable-actions [row]="rowData" [actions]="customActions"></datatable-actions>
+                    </td>                      
                     <td *ngIf="hasAction">
                         <button 
                           pButton 
