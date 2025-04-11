@@ -25,22 +25,33 @@ export class ExampleTableComponent {
 
     columnDefs = [
         { field: 'name', header: 'Name' },
-        { 
-            field: 'phone', 
-            header: 'Phone',
-            cellRendererFn: (row: any, field: string) => {
-                const formatted = this._phoneNumberFormat.transform(row[field]);
-                return `<span>${formatted}</span>`;
-            }
-         },
+        // {
+        //     field: 'status',
+        //     header: 'Status',
+        //     filterType: 'dropdown',
+        //     filterOptions: [
+        //       { label: 'Active', value: 'active' },
+        //       { label: 'Inactive', value: 'inactive' }
+        //     ]
+        // },          
+        // { 
+        //     field: 'phone', 
+        //     header: 'Phone',
+        //     cellRendererFn: (row: any, field: string) => {
+        //         const formatted = this._phoneNumberFormat.transform(row[field]);
+        //         return `<span>${formatted}</span>`;
+        //     }
+        //  },
         {
             field: 'created_at',
             header: 'Created At',
+            filterType: 'date-range',
             cellRendererComponent: CustomDateRendererComponent
         },
         {
             field: 'updated_at',
             header: 'Updated At',
+            filterType: 'date-range',
             cellRendererFn: (row: any, field: string) => {
                 const formatted = this._dateFormat.transform(row[field]);
                 return `<span>${formatted}</span>`;

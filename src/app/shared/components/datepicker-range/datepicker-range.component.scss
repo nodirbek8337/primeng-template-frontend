@@ -1,0 +1,50 @@
+label {
+    color: var(--label-color-blue-to-light) !important;
+    font-weight: 500;
+
+    &.hover:hover {
+        cursor: pointer !important;
+    }
+}
+
+.calendar-label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+:host ::ng-deep .p-calendar {
+    height: 38px;
+    border-radius: 5px;
+    width: 100%;
+    border: 1px solid var(--border-light-to-dark);
+    background-color: var(--second-bg-light-to-dark);
+}
+
+:host ::ng-deep .p-calendar input {
+    padding: 6px 54px 6px 12px;
+    font-size: 14px;
+}
+
+:host ::ng-deep .p-datepicker-month {
+    padding-right: 10px !important;
+}
+
+:host ::ng-deep .card {
+    margin-bottom: 5px !important;
+}
+
+:host ::ng-deep .p-calendar .p-calendar-clear-icon {
+    top: 7.5px;
+    right: 21px;
+}
+
+.label-small-error {
+    margin-bottom: 0.25rem;
+    margin-left: 0.25rem;
+    font-weight: 400;
+    font-size: 80%;
+}
+
+.error-message {
+    height: 12px;
+}

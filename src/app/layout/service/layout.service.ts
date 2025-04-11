@@ -22,101 +22,56 @@ interface MenuChangeEvent {
     routeEvent?: boolean;
 }
 
+export const DEFAULT_LAYOUT_CONFIG: layoutConfig = {
+    preset: 'Lara',
+    primary: 'noir',
+    surface: 'slate',
+    darkTheme: false,
+    menuMode: 'overlay'
+};
+
 @Injectable({
     providedIn: 'root'
 })
 export class LayoutService {
-    _config: layoutConfig = {
-        preset: 'Aura',
-        primary: 'emerald',
-        surface: null,
-        darkTheme: false,
-        menuMode: 'static'
-    };
+    layoutConfig = signal<layoutConfig>({ ...DEFAULT_LAYOUT_CONFIG });
 
-    _state: LayoutState = {
+    layoutState = signal<LayoutState>({
         staticMenuDesktopInactive: false,
         overlayMenuActive: false,
         configSidebarVisible: false,
         staticMenuMobileActive: false,
         menuHoverActive: false
-    };
-
-    layoutConfig = signal<layoutConfig>(this._config);
-
-    layoutState = signal<LayoutState>(this._state);
+    });
 
     private configUpdate = new Subject<layoutConfig>();
-
     private overlayOpen = new Subject<any>();
-
     private menuSource = new Subject<MenuChangeEvent>();
-
     private resetSource = new Subject();
 
     menuSource$ = this.menuSource.asObservable();
-
     resetSource$ = this.resetSource.asObservable();
-
     configUpdate$ = this.configUpdate.asObservable();
-
     overlayOpen$ = this.overlayOpen.asObservable();
 
     theme = computed(() => (this.layoutConfig()?.darkTheme ? 'light' : 'dark'));
-
     isSidebarActive = computed(() => this.layoutState().overlayMenuActive || this.layoutState().staticMenuMobileActive);
-
     isDarkTheme = computed(() => this.layoutConfig().darkTheme);
-
     getPrimary = computed(() => this.layoutConfig().primary);
-
     getSurface = computed(() => this.layoutConfig().surface);
-
     isOverlay = computed(() => this.layoutConfig().menuMode === 'overlay');
 
     transitionComplete = signal<boolean>(false);
-
     private initialized = false;
 
     constructor() {
         effect(() => {
             const config = this.layoutConfig();
             if (config) {
+                this.toggleDarkMode(config);
                 this.onConfigUpdate();
             }
         });
-
-        effect(() => {
-            const config = this.layoutConfig();
-
-            if (!this.initialized || !config) {
-                this.initialized = true;
-                return;
-            }
-
-            this.handleDarkModeTransition(config);
-        });
-    }
-
-    private handleDarkModeTransition(config: layoutConfig): void {
-        if ((document as any).startViewTransition) {
-            this.startViewTransition(config);
-        } else {
-            this.toggleDarkMode(config);
-            this.onTransitionEnd();
-        }
-    }
-
-    private startViewTransition(config: layoutConfig): void {
-        const transition = (document as any).startViewTransition(() => {
-            this.toggleDarkMode(config);
-        });
-
-        transition.ready
-            .then(() => {
-                this.onTransitionEnd();
-            })
-            .catch(() => {});
     }
 
     toggleDarkMode(config?: layoutConfig): void {
@@ -138,7 +93,6 @@ export class LayoutService {
     onMenuToggle() {
         if (this.isOverlay()) {
             this.layoutState.update((prev) => ({ ...prev, overlayMenuActive: !this.layoutState().overlayMenuActive }));
-
             if (this.layoutState().overlayMenuActive) {
                 this.overlayOpen.next(null);
             }
@@ -148,7 +102,6 @@ export class LayoutService {
             this.layoutState.update((prev) => ({ ...prev, staticMenuDesktopInactive: !this.layoutState().staticMenuDesktopInactive }));
         } else {
             this.layoutState.update((prev) => ({ ...prev, staticMenuMobileActive: !this.layoutState().staticMenuMobileActive }));
-
             if (this.layoutState().staticMenuMobileActive) {
                 this.overlayOpen.next(null);
             }
@@ -164,7 +117,6 @@ export class LayoutService {
     }
 
     onConfigUpdate() {
-        this._config = { ...this.layoutConfig() };
         this.configUpdate.next(this.layoutConfig());
     }
 
@@ -173,6 +125,7 @@ export class LayoutService {
     }
 
     reset() {
+        this.layoutConfig.set({ ...DEFAULT_LAYOUT_CONFIG });
         this.resetSource.next(true);
     }
 }

@@ -1,0 +1,14 @@
+<p-datepicker
+  selectionMode="range"
+  [(ngModel)]="value"
+  [dateFormat]="dateFormat"
+  [showTime]="showTime"
+  [showClear]="true"
+  [showIcon]="true"
+  [placeholder]="placeholder"
+  iconDisplay="input"
+  [readonlyInput]="true"
+  (onSelect)="onSelect()"
+  (onClear)="clear()"
+  class="w-100"
+/>

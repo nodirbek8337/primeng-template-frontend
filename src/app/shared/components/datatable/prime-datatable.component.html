@@ -49,21 +49,48 @@
                 </tr>
                 <tr class="filter-headers">
                     <th *ngFor="let col of columns" class="filter-header">
-                        <input 
-                            *ngIf="col.searchable !== false" 
-                            pInputText 
-                            type="text" 
+                      <ng-container *ngIf="col.searchable !== false">
+                  
+                        <ng-container *ngIf="col.filterType === 'dropdown'">
+                          <p-select
+                            [options]="col.filterOptions"
+                            optionLabel="label"
+                            optionValue="value"
+                            placeholder="Select {{ col.header }}"
+                            class="w-100"
+                            [(ngModel)]="columnFilters[col.field]"
+                            (onChange)="onColumnFilter($event.value, col.field)"
+                            [showClear]="true"
+                          ></p-select>
+                        </ng-container>
+                  
+                        <ng-container *ngIf="col.filterType === 'date-range'">
+                          <datepicker-range
+                            [value]="columnFilters[col.field]"
+                            (valueChange)="onColumnFilter($event, col.field)"
+                            [placeholder]="'Vaqt oraliqi'"
+                          ></datepicker-range>
+                        </ng-container>
+                  
+                        <ng-container *ngIf="!col.filterType || col.filterType === 'text'">
+                          <input
+                            pInputText
+                            type="text"
                             class="w-100"
                             placeholder="Search {{ col.header }}"
-                            [(ngModel)]="columnFilters[col.field]" 
+                            [(ngModel)]="columnFilters[col.field]"
                             (ngModelChange)="onColumnFilter($event, col.field)"
-                        />
+                          />
+                        </ng-container>
+                  
+                      </ng-container>
                     </th>
-                    <th *ngIf="hasAction" class="filter-header">
-                    </th>
-                    <th *ngIf="hasAction" class="filter-header">
-                    </th>
+                  
+                    <th *ngIf="customActions?.length" class="filter-header"></th>
+                    <th *ngIf="hasAction" class="filter-header"></th>
                 </tr>
+                  
+                  
             </ng-template>
 
             <ng-template pTemplate="body" let-rowData let-columns="columns">

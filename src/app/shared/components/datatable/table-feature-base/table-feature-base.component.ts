@@ -73,28 +73,62 @@ export abstract class TableFeatureBaseComponent implements OnInit {
         });
     }
 
-    onColumnFilter(value: string, field: string) {
-        if (!value?.trim()) {
-            delete this.columnFilters[field];
+    onColumnFilter(value: any, field: string) {
+        if (
+          (typeof value === 'string' && value.trim() !== '') ||
+          (Array.isArray(value) && value.length > 0) ||
+          (typeof value === 'object' && value !== null) ||
+          typeof value === 'number' ||
+          typeof value === 'boolean'
+        ) {
+          this.columnFilters[field] = value;
+        } else {
+          delete this.columnFilters[field];
         }
-
+      
         if (this.filterTimeout) clearTimeout(this.filterTimeout);
-
+      
         this.filterTimeout = setTimeout(() => {
-            this.applyFilters();
-        }, 1000);
-    }
+          this.applyFilters();
+        }, 500);
+      
+        console.log('Field:', field, '| Filter Value:', value);
+      }
+      
 
-    applyFilters() {
+      applyFilters() {
         const formattedFilters: any = {};
+      
         for (const key in this.columnFilters) {
           const value = this.columnFilters[key];
-          if (value?.trim()) {
+      
+          if (typeof value === 'string' && value.trim() !== '') {
+            formattedFilters[key] = { value, matchMode: 'contains' };
+          }
+      
+          else if (typeof value === 'number' || typeof value === 'boolean') {
+            formattedFilters[key] = { value, matchMode: 'equals' };
+          }
+      
+          else if (Array.isArray(value) && value.length === 2 && value[0] && value[1]) {
+            formattedFilters[`${key}_from`] = {
+              value: value[0].toISOString(),
+              matchMode: 'gte'
+            };
+            formattedFilters[`${key}_to`] = {
+              value: value[1].toISOString(),
+              matchMode: 'lte'
+            };
+          }
+      
+          else if (value) {
             formattedFilters[key] = { value, matchMode: 'contains' };
           }
         }
+      
         this.reload(formattedFilters);
-    }
+      }
+      
 
     isFilterEmpty(): boolean {
         return Object.keys(this.columnFilters).length === 0;

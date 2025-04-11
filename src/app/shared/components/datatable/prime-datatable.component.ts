@@ -9,9 +9,12 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { SelectModule } from 'primeng/select';
+import { DatepickerRangeComponent } from '../datepicker-range/datepicker-range.component';
 import { DatatableActionsComponent } from "./components/datatable-actions.component";
 import { DatatableColumnRendererComponent } from "./components/datatable-column-renderer.component";
 import { ICustomAction } from '../../interfaces/custom-action.interface';
+
 
 @Component({
     selector: 'prime-datatable',
@@ -26,6 +29,8 @@ import { ICustomAction } from '../../interfaces/custom-action.interface';
     ConfirmDialogModule,
     InputTextModule,
     ButtonModule,
+    SelectModule,
+    DatepickerRangeComponent,
     DatatableActionsComponent,
     DatatableColumnRendererComponent
 ],
