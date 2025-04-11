@@ -36,7 +36,7 @@
         >
             <ng-template pTemplate="header" let-columns>
                 <tr class="sort-headers">
-                    <th *ngFor="let col of columns" [pSortableColumn]="col.sortable !== false ? col.field : null" class="sort-header">
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.sortable !== false ? col.field : null" class="sort-header" [ngClass]="col.widthClass">
                         {{ col.header }}
                         <p-sortIcon *ngIf="col.sortable !== false" [field]="col.field"></p-sortIcon>
                     </th>
@@ -48,7 +48,7 @@
                     </th>
                 </tr>
                 <tr class="filter-headers">
-                    <th *ngFor="let col of columns" class="filter-header">
+                    <th *ngFor="let col of columns" class="filter-header" [ngClass]="col.widthClass">
                       <ng-container *ngIf="col.searchable !== false">
                   
                         <ng-container *ngIf="col.filterType === 'dropdown'">
@@ -56,8 +56,8 @@
                             [options]="col.filterOptions"
                             optionLabel="label"
                             optionValue="value"
-                            placeholder="Select {{ col.header }}"
-                            class="w-100"
+                            placeholder="Tanlash"
+                            [style.width.%]="100"
                             [(ngModel)]="columnFilters[col.field]"
                             (onChange)="onColumnFilter($event.value, col.field)"
                             [showClear]="true"
@@ -76,8 +76,8 @@
                           <input
                             pInputText
                             type="text"
-                            class="w-100"
-                            placeholder="Search {{ col.header }}"
+                            [style.width.%]="100"
+                            placeholder="Qidirish..."
                             [(ngModel)]="columnFilters[col.field]"
                             (ngModelChange)="onColumnFilter($event, col.field)"
                           />
@@ -95,7 +95,7 @@
 
             <ng-template pTemplate="body" let-rowData let-columns="columns">
                 <tr class="body-contents">
-                    <td *ngFor="let col of columns" class="body-content">
+                    <td *ngFor="let col of columns" class="body-content" [ngClass]="col.widthClass">
                         <datatable-column-renderer 
                             [field]="col.field" 
                             [row]="rowData"

@@ -91,3 +91,59 @@
     background-color: #4b5563 !important;
     cursor: pointer;
 }
+
+:host ::ng-deep .datatable-content {
+    .w-50 {
+        width: 50px !important;
+        min-width: 50px !important;
+        max-width: 50px !important;
+    }
+
+    .w-80 {
+        width: 80px !important;
+        min-width: 80px !important;
+        max-width: 80px !important;
+    }
+
+    .w-100 {
+        width: 100px !important;
+        min-width: 100px !important;
+        max-width: 100px !important;
+    }
+
+    .w-5p {
+        width: 5% !important;
+        min-width: 5% !important;
+        max-width: 5% !important;
+    }
+
+    .w-10p {
+        width: 10% !important;
+        min-width: 10% !important;
+        max-width: 10% !important;
+    }
+
+    .w-15p {
+        width: 15% !important;
+        min-width: 15% !important;
+        max-width: 15% !important;
+    }
+
+    .w-20p {
+        width: 20% !important;
+        min-width: 20% !important;
+        max-width: 20% !important;
+    }
+
+    .w-25p {
+        width: 25% !important;
+        min-width: 25% !important;
+        max-width: 25% !important;
+    }
+
+    .w-50p {
+        width: 50% !important;
+        min-width: 50% !important;
+        max-width: 50% !important;
+    }
+}

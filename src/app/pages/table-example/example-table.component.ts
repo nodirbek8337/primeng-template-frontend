@@ -24,34 +24,38 @@ export class ExampleTableComponent {
     FormComponent = ExampleTableFormComponent;
 
     columnDefs = [
-        { field: 'name', header: 'Name' },
-        // {
-        //     field: 'status',
-        //     header: 'Status',
-        //     filterType: 'dropdown',
-        //     filterOptions: [
-        //       { label: 'Active', value: 'active' },
-        //       { label: 'Inactive', value: 'inactive' }
-        //     ]
-        // },          
-        // { 
-        //     field: 'phone', 
-        //     header: 'Phone',
-        //     cellRendererFn: (row: any, field: string) => {
-        //         const formatted = this._phoneNumberFormat.transform(row[field]);
-        //         return `<span>${formatted}</span>`;
-        //     }
-        //  },
+        { field: 'name', header: 'Name', widthClass: 'w-20p' },
+        {
+            field: 'status',
+            header: 'Status',
+            widthClass: 'w-15p',
+            filterType: 'dropdown',
+            filterOptions: [
+              { label: 'Active', value: 'active' },
+              { label: 'Inactive', value: 'inactive' }
+            ]
+        },          
+        { 
+            field: 'phone', 
+            header: 'Phone',
+            widthClass: 'w-15p',
+            cellRendererFn: (row: any, field: string) => {
+                const formatted = this._phoneNumberFormat.transform(row[field]);
+                return `<span>${formatted}</span>`;
+            }
+         },
         {
             field: 'created_at',
             header: 'Created At',
             filterType: 'date-range',
+            widthClass: 'w-15p',
             cellRendererComponent: CustomDateRendererComponent
         },
         {
             field: 'updated_at',
             header: 'Updated At',
             filterType: 'date-range',
+            widthClass: 'w-15p',
             cellRendererFn: (row: any, field: string) => {
                 const formatted = this._dateFormat.transform(row[field]);
                 return `<span>${formatted}</span>`;
