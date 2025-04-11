@@ -14,23 +14,39 @@
     height: 40px;
 }
 
-/* Light Mode */
-::ng-deep .datatable-content .p-datatable {
-  border: 1px solid #e5e7eb;
-  border-radius: var(--content-border-radius);
+::ng-deep .p-datatable-scrollable-body {
+    max-height: 70vh !important;
+    overflow-y: auto;
 }
 
-.sort-headers .sort-header,
-.filter-headers .filter-header {
+::ng-deep .p-datatable-table-container {
+    min-height: 70vh;
+}
+
+/* Light Mode */
+::ng-deep .datatable-content .p-datatable {
+    border: 1px solid #e5e7eb;
+    border-radius: var(--content-border-radius);
+}
+
+::ng-deep .sort-headers .sort-header,
+::ng-deep .filter-headers .filter-header {
     background-color: #f0f0f5;
     color: #333;
     border: none;
     text-align: center;
+    height: 52px !important;
+}
+
+::ng-deep .datatable-content .p-datatable-thead > tr > th,
+::ng-deep .datatable-content .p-datatable-tbody > tr > td {
+    height: 40px;
+    padding: 0 8px;
 }
 
 .sort-headers .sort-header,
 .filter-headers .filter-header {
-  border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .sort-headers .sort-header:first-child {
@@ -57,10 +73,10 @@
 
 /* Dark Mode */
 ::ng-deep html.app-dark .datatable-content .p-datatable {
-  border-color: #52525b !important;
+    border-color: #52525b !important;
 }
 
-::ng-deep html.app-dark .sort-headers .sort-header, 
+::ng-deep html.app-dark .sort-headers .sort-header,
 ::ng-deep html.app-dark .filter-headers .filter-header {
     background-color: #1f2937 !important;
     color: #f9fafb !important;
