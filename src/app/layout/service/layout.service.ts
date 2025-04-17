@@ -27,7 +27,7 @@ export const DEFAULT_LAYOUT_CONFIG: layoutConfig = {
     primary: 'noir',
     surface: 'slate',
     darkTheme: false,
-    menuMode: 'overlay'
+    menuMode: 'static'
 };
 
 @Injectable({

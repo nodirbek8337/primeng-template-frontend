@@ -48,14 +48,14 @@ export class ExampleTableComponent {
             field: 'created_at',
             header: 'Created At',
             filterType: 'date-range',
-            widthClass: 'w-15p',
+            widthClass: 'w-25p',
             cellRendererComponent: CustomDateRendererComponent
         },
         {
             field: 'updated_at',
             header: 'Updated At',
             filterType: 'date-range',
-            widthClass: 'w-15p',
+            widthClass: 'w-25p',
             cellRendererFn: (row: any, field: string) => {
                 const formatted = this._dateFormat.transform(row[field]);
                 return `<span>${formatted}</span>`;
@@ -64,21 +64,21 @@ export class ExampleTableComponent {
     ];
 
     customRowActions: ICustomAction[] = [
-        {
-            icon: 'pi pi-eye',
-            tooltip: 'Ko‘rish',
-            color: 'info',
-            action: (row) => {
-                console.log('Ko‘rilayotgan ID:', row._id);
-            }
-        },
-        {
-            icon: 'pi pi-send',
-            tooltip: 'Email yuborish',
-            color: 'success',
-            action: (row) => {
-                alert('Email yuborilmoqda: ' + row.email);
-            }
-        }
+        // {
+        //     icon: 'pi pi-eye',
+        //     tooltip: 'Ko‘rish',
+        //     color: 'info',
+        //     action: (row) => {
+        //         console.log('Ko‘rilayotgan ID:', row._id);
+        //     }
+        // },
+        // {
+        //     icon: 'pi pi-send',
+        //     tooltip: 'Email yuborish',
+        //     color: 'success',
+        //     action: (row) => {
+        //         alert('Email yuborilmoqda: ' + row.email);
+        //     }
+        // }
     ];
 }
