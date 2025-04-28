@@ -1,14 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { SelectModule } from 'primeng/select';
 import { InputTextModule } from 'primeng/inputtext';
 import { CommonModule } from '@angular/common';
+import { InputComponent } from "../../../shared/components/input/input.component";
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-example-table-form',
   standalone: true,
   templateUrl: './example-table-form.component.html',
-  imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule],
+  styleUrls: ['./example-table-form.component.scss'],
+  imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule, InputComponent, SelectModule, CalendarModule],
 })
 export class ExampleTableFormComponent {
   @Input() model: any = {};
@@ -18,10 +22,27 @@ export class ExampleTableFormComponent {
 
   form: FormGroup;
 
+  roleOptions = [
+    { label: 'Bosh admin', value: 'department_head' },
+    { label: 'Admin', value: 'admin' },
+    { label: 'user', value: 'user' },
+  ];
+
+  genderOptions = [
+    { label: 'Erkak', value: 'male' },
+    { label: 'Ayol', value: 'female' },
+  ];
+
+  statusOptions = [
+    { label: 'Faol', value: true },
+    { label: 'Faol emas', value: false },
+  ];
+
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       role: ['', Validators.required],
+      password: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       gender: ['', Validators.required],

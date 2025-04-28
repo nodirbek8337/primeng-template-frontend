@@ -1,51 +1,46 @@
 <form [formGroup]="form" (ngSubmit)="submitForm()" class="p-fluid">
-    <div class="field">
-        <label for="name">Name</label>
-        <input id="name" pInputText formControlName="name" />
-    </div>
-
-    <div class="field">
-        <label for="role">Role</label>
-        <input id="role" pInputText formControlName="role" />
-    </div>
-
-    <div class="field">
-        <label for="email">Email</label>
-        <input id="email" pInputText formControlName="email" />
-    </div>
-
-    <div class="field">
-        <label for="phone">Phone</label>
-        <input id="phone" pInputText formControlName="phone" />
-    </div>
-
-    <div class="field">
-        <label for="gender">Gender</label>
-        <input id="gender" pInputText formControlName="gender" />
-    </div>
-
-    <div class="status">
-        <label for="status">Status</label>
-        <input id="status" pInputText formControlName="status" />
-    </div>
-
-    <div class="field">
-        <label for="nationality">Nationality</label>
-        <input id="nationality" pInputText formControlName="nationality" />
-    </div>
-
-    <div class="field">
-        <label for="address">Address</label>
-        <input id="address" pInputText formControlName="address" />
-    </div>
-
-    <div class="field">
-        <label for="birth_date">Birthay</label>
-        <input id="birth_date" pInputText formControlName="birth_date" />
-    </div>
-
+    <app-input placeholder="Ism" formControlName="name" [required]="true"></app-input>
+    <p-select 
+        [options]="roleOptions" 
+        optionLabel="label" 
+        optionValue="value" 
+        formControlName="role" 
+        placeholder="Rol" 
+        [showClear]="true" 
+        class="select-content">
+    </p-select>
+    <app-input placeholder="Email" formControlName="email" [required]="true"></app-input>
+    <app-input placeholder="Telefon" formControlName="phone" [required]="true"></app-input>
+    <p-select 
+        [options]="genderOptions" 
+        optionLabel="label" 
+        optionValue="value" 
+        formControlName="gender" 
+        placeholder="Jins" 
+        [showClear]="true" 
+        class="select-content">
+    </p-select>
+    <p-select 
+        [options]="statusOptions" 
+        optionLabel="label" 
+        optionValue="value" 
+        formControlName="status" 
+        placeholder="Holat" 
+        [showClear]="true" 
+        class="select-content">
+    </p-select>
+    <app-input placeholder="Millat" formControlName="nationality" [required]="true"></app-input>
+    <app-input placeholder="Manzil" formControlName="address" [required]="true"></app-input>
+    <p-calendar 
+        formControlName="birth_date"
+        [showIcon]="true" 
+        [showButtonBar]="true" 
+        placeholder="Tug'ilgan kun" 
+        dateFormat="dd.mm.yy"
+        class="select-content">
+    </p-calendar>
     <div class="flex justify-end gap-2 mt-4">
-        <button pButton type="button" label="Cancel" (click)="closeModal()" class="p-button-text p-button-danger"></button>
-        <button pButton type="submit" label="Save" [loading]="loading" [disabled]="loading || form.invalid" class="p-button-text p-button-success"></button>
+        <button pButton type="button" label="Bekor qilish" (click)="closeModal()" class="p-button-text p-button-danger"></button>
+        <button pButton type="submit" label="Saqlash" [loading]="loading" [disabled]="loading || form.invalid" class="p-button-text p-button-success"></button>
     </div>
 </form>

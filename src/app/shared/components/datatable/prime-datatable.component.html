@@ -13,7 +13,7 @@
                     [disabled]="loading || isFilterEmpty()"
                 ></button>
             </div>
-            <button *ngIf="hasCreate" pButton icon="pi pi-plus" label="Add" (click)="triggerAdd()"></button>
+            <button *ngIf="hasCreate" pButton icon="pi pi-plus" label="Qo'shish" (click)="triggerAdd()"></button>
         </div>
 
         <ng-content select="[filter]"></ng-content>
@@ -128,7 +128,7 @@
                   <td td [attr.colspan]="columnDefs.length + (hasAction ? 1 : 0) + (customActions.length > 0 ? 1 : 0)">
                     <div style="height: 57vh; display: flex; justify-content: center; align-items: center;">
                       <div class="text-center text-muted">
-                        <div><i class="pi pi-info-circle text-3xl mb-2 d-block"></i><span>Maʼlumot topilmadi</span></div>
+                        <div><i class="pi pi-info-circle text-3xl mb-2 d-block"></i><span class="pl-1">Maʼlumot topilmadi</span></div>
                       </div>
                     </div>
                   </td>
@@ -155,7 +155,7 @@
   [closable]="true"
   [draggable]="false"
   [resizable]="false"
-  header="{{ editMode ? 'Edit' : 'Create' }}"
+  header="{{ editMode ? 'Yangilash' : 'Qo\'shish' }}"
 >
   <ng-template #formContainer></ng-template>
 </p-dialog>

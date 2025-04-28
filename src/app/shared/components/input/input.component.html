@@ -1,0 +1,25 @@
+<div class="app-input-container">
+    <input
+        [type]="actualType"
+        pInputText
+        style="width: 100%;"
+        [placeholder]="placeholder"
+        [disabled]="isDisabled"
+        [(ngModel)]="value"
+        (ngModelChange)="onChange($event)"
+        (blur)="onTouched()"
+        [ngClass]="{
+            'is-invalid': shouldShowErrors()
+        }"
+    />
+
+    <button *ngIf="type === 'password'" type="button" class="eye-btn" (click)="togglePasswordVisibility()">
+        <i [ngClass]="[showPassword ? 'pi pi-times' : 'pi pi-eye-slash', 'text-3xl', 'mb-2', 'd-block']"></i>
+    </button>
+
+    <div *ngIf="shouldShowErrors()" class="invalid-feedback mt-1">
+        <small *ngIf="control?.errors?.['required']"> Maydon to‘ldirilishi shart </small>
+        <small *ngIf="control?.errors?.['email']">Email noto‘g‘ri formatda</small>
+        <small *ngIf="control?.errors?.['pattern']">Qiymat noto‘g‘ri formatda</small>
+    </div>
+</div>
