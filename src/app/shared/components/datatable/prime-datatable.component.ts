@@ -74,7 +74,8 @@ export class PrimeDatatableComponent extends TableFeatureBaseComponent {
         this.editData = row;
         this.editMode = true;
         this.showEditDialog = true;
-        setTimeout(() => this.loadFormComponent(row._id), 0);
+        const id = row?._id ?? row?.id ?? null;
+        setTimeout(() => this.loadFormComponent(id), 0);
     }
 
     triggerDelete(row: any) {
