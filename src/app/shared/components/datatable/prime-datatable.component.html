@@ -107,19 +107,21 @@
                         <datatable-actions [row]="rowData" [actions]="customActions"></datatable-actions>
                     </td>                      
                     <td *ngIf="hasAction" class="center-content">
-                        <button 
-                          pButton 
-                          icon="pi pi-pencil" 
-                          class="p-button-sm p-button-text p-button-info me-2" 
-                          (click)="triggerEdit(rowData)">
-                        </button>
-                        <button 
-                          pButton 
-                          icon="pi pi-trash" 
-                          class="p-button-sm p-button-text p-button-danger" 
-                          (click)="triggerDelete(rowData)">
-                        </button>
-                      </td>
+                        <div class="action-buttons">
+                          <button 
+                            pButton 
+                            icon="pi pi-pencil" 
+                            class="p-button-sm p-button-text p-button-info me-2" 
+                            (click)="triggerEdit(rowData)">
+                          </button>
+                          <button 
+                            pButton 
+                            icon="pi pi-trash" 
+                            class="p-button-sm p-button-text p-button-danger" 
+                            (click)="triggerDelete(rowData)">
+                          </button>
+                        </div>
+                    </td>
                 </tr>
             </ng-template>
 

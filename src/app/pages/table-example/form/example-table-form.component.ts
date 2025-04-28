@@ -23,9 +23,9 @@ export class ExampleTableFormComponent {
   form: FormGroup;
 
   roleOptions = [
-    { label: 'Bosh admin', value: 'department_head' },
-    { label: 'Admin', value: 'admin' },
-    { label: 'user', value: 'user' },
+    { label: 'Admin', value: 'Admin' },
+    { label: 'User', value: 'User' },
+    { label: 'Guest', value: 'Guest' },
   ];
 
   genderOptions = [
@@ -34,22 +34,20 @@ export class ExampleTableFormComponent {
   ];
 
   statusOptions = [
-    { label: 'Faol', value: true },
-    { label: 'Faol emas', value: false },
+    { label: 'Faol', value: 'active' },
+    { label: 'Faol emas', value: 'inActive' },
   ];
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       role: ['', Validators.required],
-      password: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       gender: ['', Validators.required],
       status: ['', Validators.required],
       nationality: ['', Validators.required],
       address: ['', Validators.required],
-      birth_date: ['', Validators.required],
     });
   }
 

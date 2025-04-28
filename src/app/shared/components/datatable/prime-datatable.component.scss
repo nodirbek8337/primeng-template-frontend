@@ -71,6 +71,13 @@
     text-align: center;
 }
 
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.5rem;
+}
+
 /* Dark Mode */
 ::ng-deep html.app-dark .datatable-content .p-datatable {
     border-color: #52525b !important;

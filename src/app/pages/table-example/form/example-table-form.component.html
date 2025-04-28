@@ -31,14 +31,6 @@
     </p-select>
     <app-input placeholder="Millat" formControlName="nationality" [required]="true"></app-input>
     <app-input placeholder="Manzil" formControlName="address" [required]="true"></app-input>
-    <p-calendar 
-        formControlName="birth_date"
-        [showIcon]="true" 
-        [showButtonBar]="true" 
-        placeholder="Tug'ilgan kun" 
-        dateFormat="dd.mm.yy"
-        class="select-content">
-    </p-calendar>
     <div class="flex justify-end gap-2 mt-4">
         <button pButton type="button" label="Bekor qilish" (click)="closeModal()" class="p-button-text p-button-danger"></button>
         <button pButton type="submit" label="Saqlash" [loading]="loading" [disabled]="loading || form.invalid" class="p-button-text p-button-success"></button>
